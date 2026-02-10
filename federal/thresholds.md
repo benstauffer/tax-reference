@@ -54,7 +54,6 @@ other:
 
 # Key Thresholds (2026)
 
-Sources: IRC §1411, IRC §199A, Rev. Proc. 2025-32, OBBBA §70120
 
 ## NIIT
 Not indexed (unchanged since 2013). 3.8% on lesser of: (1) net investment income, or (2) MAGI exceeding threshold.

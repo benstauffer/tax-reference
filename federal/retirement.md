@@ -55,7 +55,6 @@ other:
 
 # Retirement Contribution Limits (2026)
 
-Sources: Rev. Proc. 2025-32, Rev. Proc. 2025-19
 
 ## 401(k) / 403(b) / 457(b)
 **Mega Backdoor Roth:** total_limit - employee deferral - employer contributions. Requires plan allowing after-tax contributions and in-service distributions/conversions.

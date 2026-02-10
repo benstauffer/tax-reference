@@ -26,7 +26,6 @@ nanny_tax:
 
 # Payroll Tax (2026)
 
-Sources: SSA.gov, IRC §3101(b), IRC §1401, IRC §164(f)
 
 ## Additional Medicare Tax
 - Not indexed (unchanged since 2013)

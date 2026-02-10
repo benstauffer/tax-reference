@@ -21,7 +21,6 @@ macrs:
 
 # Depreciation (2026)
 
-Source: OBBBA
 
 ## Section 179
 Phases out dollar-for-dollar above threshold.

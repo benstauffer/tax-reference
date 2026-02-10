@@ -58,5 +58,3 @@ No S-Corp recognition: NYC, NH, TN, DC.
 - **2025_rolling_pub**: Rolling publication - verify revision date
 
 ---
-
-*Source: IRS Rev. Proc. 2025-32, Notice 2025-67, Rev. Proc. 2025-19, OBBBA (P.L. 119-21), SSA.gov, IRC §164(f), IRC §1401, IRC §1411, IRC §199A, state DOR publications. Verify current rates with each state DOR.*
