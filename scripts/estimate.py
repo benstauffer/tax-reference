@@ -2,10 +2,10 @@
 """
 2026 US Tax Estimation Script — Standalone Calculator
 
-Data sourced from:  YAML frontmatter in federal/*.md + state/*.md
+Data sourced from:  YAML frontmatter in reference/tax.md
 Calculation logic:  1:1 port of app/tax-map/tax-calculator.ts
 
-Dependencies: pyyaml. Run with: python3 tax-data/estimate.py
+Dependencies: pyyaml. Run with: python3 scripts/estimate.py
 """
 import yaml
 from pathlib import Path
@@ -14,7 +14,7 @@ from pathlib import Path
 # LOAD DATA FROM MARKDOWN FRONTMATTER
 # =============================================================================
 
-_DIR = Path(__file__).parent
+_DIR = Path(__file__).resolve().parent.parent
 
 
 def _load_frontmatter(path):
@@ -23,38 +23,29 @@ def _load_frontmatter(path):
     return yaml.safe_load(fm)
 
 
-# Federal
-_income = _load_frontmatter(_DIR / "federal" / "income-tax.md")
-_payroll_data = _load_frontmatter(_DIR / "federal" / "payroll.md")
-_retirement = _load_frontmatter(_DIR / "federal" / "retirement.md")
-_thresholds = _load_frontmatter(_DIR / "federal" / "thresholds.md")
+_data = _load_frontmatter(_DIR / "reference" / "tax.md")
 
-FEDERAL_BRACKETS = _income["brackets"]
-STANDARD_DEDUCTIONS = _income["standard_deductions"]
-PAYROLL_CONFIG = _payroll_data["payroll"]
-ADDITIONAL_MEDICARE_THRESHOLD = _payroll_data["additional_medicare_thresholds"]
-QBID_THRESHOLDS = _thresholds["qbid"]
-SOLO_401K_LIMITS = _retirement["solo_401k"]
-IRA_LIMIT = _retirement["ira_limit"]
+# Federal
+FEDERAL_BRACKETS = _data["brackets"]
+STANDARD_DEDUCTIONS = _data["standard_deductions"]
+PAYROLL_CONFIG = _data["payroll"]
+ADDITIONAL_MEDICARE_THRESHOLD = _data["additional_medicare_thresholds"]
+QBID_THRESHOLDS = _data["qbid"]
+SOLO_401K_LIMITS = _data["solo_401k"]
+IRA_LIMIT = _data["ira_limit"]
 
 # State
-_overview = _load_frontmatter(_DIR / "state" / "overview.md")
-_no_tax = _load_frontmatter(_DIR / "state" / "no-income-tax.md")
-_flat = _load_frontmatter(_DIR / "state" / "flat-tax.md")
-_grad_al = _load_frontmatter(_DIR / "state" / "graduated-AL-MN.md")
-_grad_mt = _load_frontmatter(_DIR / "state" / "graduated-MT-WI.md")
+STATE_TAX_DATA = {**_data["state_no_tax"], **_data["state_flat"], **_data["state_graduated_al_mn"], **_data["state_graduated_mt_wi"]}
+LOCAL_TAX_DATA = _data["local"]
+CA_SCORP_ENTITY_TAX = _data["ca_scorp_entity_tax"]
 
-STATE_TAX_DATA = {**_no_tax["states"], **_flat["states"], **_grad_al["states"], **_grad_mt["states"]}
-LOCAL_TAX_DATA = _overview["local"]
-CA_SCORP_ENTITY_TAX = _overview["ca_scorp_entity_tax"]
+STATE_STD_DEDS = {"federal_conformity": _data["federal_conformity_deductions"]}
+for _key in ["state_flat_standard_deductions", "state_graduated_al_mn_standard_deductions", "state_graduated_mt_wi_standard_deductions"]:
+    STATE_STD_DEDS.update(_data.get(_key, {}))
 
-STATE_STD_DEDS = {"federal_conformity": _overview["federal_conformity_deductions"]}
-for _src in [_flat, _grad_al, _grad_mt]:
-    STATE_STD_DEDS.update(_src.get("standard_deductions", {}))
-
-NO_TAX_STATES = _overview["lists"]["no_tax"]
-PTET_STATES = _overview["lists"]["ptet"]
-QBID_NONCONFORMING_STATES = _overview["lists"]["qbid_nonconforming"]
+NO_TAX_STATES = _data["state_lists"]["no_tax"]
+PTET_STATES = _data["state_lists"]["ptet"]
+QBID_NONCONFORMING_STATES = _data["state_lists"]["qbid_nonconforming"]
 
 
 # =============================================================================

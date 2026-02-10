@@ -1,13 +1,11 @@
 ---
 name: tax
 description: Calculates 2026 US federal and state taxes for solopreneurs. Use when computing tax liability, planning retirement contributions, comparing state tax rates, determining self-employment tax, or answering questions about brackets, deductions, QBID, NIIT, SALT, or PTET.
-allowed-tools:
-  - Read
 ---
 
 # 2026 US Tax Reference
 
-Quick reference for solopreneurs. TCJA extended via OBBBA (July 2025).
+All tax data is in [reference/tax.md](reference/tax.md) (YAML frontmatter + notes). For step-by-step calculations, run [scripts/estimate.py](scripts/estimate.py) (requires `pyyaml`).
 
 ## Quick Reference
 
@@ -34,34 +32,11 @@ Quick reference for solopreneurs. TCJA extended via OBBBA (July 2025).
 - **Bonus depreciation**: 100% (restored via OBBBA)
 - **Estate exemption**: 15M | **Gift exclusion**: 19,000
 
-## Routing Table
+## Data Location
 
-Load ONLY the file(s) needed to answer the question. For multi-topic questions, load each relevant file.
+All brackets, thresholds, and state data are in the YAML frontmatter of [reference/tax.md](reference/tax.md). Notes and state-specific commentary follow after the frontmatter. Read reference/tax.md to answer any question about specific numbers, brackets, or rules.
 
-### Federal Topics
-| Topic | File |
-|-------|------|
-| Brackets, standard deduction, senior deduction, capital gains, LTCG | [federal/income-tax.md](federal/income-tax.md) |
-| SS, Medicare, SE tax, FUTA, nanny tax | [federal/payroll.md](federal/payroll.md) |
-| 401(k), IRA, Roth, HSA, SEP, SIMPLE, FSA, defined benefit, savers credit | [federal/retirement.md](federal/retirement.md) |
-| NIIT, QBID, SALT cap, AMT, kiddie tax, FEIE, adoption credit, student loan interest | [federal/thresholds.md](federal/thresholds.md) |
-| Section 179, bonus depreciation, MACRS | [federal/depreciation.md](federal/depreciation.md) |
-| Estate tax, gift tax, GST, portability | [federal/estate-gift.md](federal/estate-gift.md) |
-
-### State Topics
-| Topic | File |
-|-------|------|
-| No tax / flat tax / QBID / PTET lists, S-Corp entity taxes | [state/overview.md](state/overview.md) |
-| AK, FL, NV, NH, SD, TN, TX, WA, WY | [state/no-income-tax.md](state/no-income-tax.md) |
-| AZ, CO, GA, ID, IL, IN, IA, KY, LA, MI, MO, MS, NC, OH, PA, UT | [state/flat-tax.md](state/flat-tax.md) |
-| AL, AR, CA, CT, DC, DE, HI, KS, MA, ME, MD, MN | [state/graduated-AL-MN.md](state/graduated-AL-MN.md) |
-| MT, NE, NJ, NM, NY, ND, OK, OR, RI, SC, VT, VA, WV, WI | [state/graduated-MT-WI.md](state/graduated-MT-WI.md) |
-| PTET rates, credit types, election timing | [state/ptet.md](state/ptet.md) |
-
-### Calculations
-| Topic | File |
-|-------|------|
-| Run tax estimate, step-by-step calculation, verify math, Python calculator | [estimate.py](estimate.py) |
+For calculations, run [scripts/estimate.py](scripts/estimate.py) with a Python interpreter (`pip install pyyaml`).
 
 ## Filing Status Codes
 
@@ -73,8 +48,17 @@ Load ONLY the file(s) needed to answer the question. For multi-topic questions, 
 | hoh | Head of Household |
 | qw | Qualifying Widow(er) |
 
-## Data Conventions
+## YAML Frontmatter Keys
 
-- Rates shown as "10%" in tables, use 0.10 for calculations
-- Dollar amounts as integers, no $ in data columns
-- Unbounded maximums shown as "—"
+| Key | Contains |
+|-----|----------|
+| `brackets`, `standard_deductions`, `capital_gains` | Federal income tax |
+| `payroll`, `additional_medicare_thresholds`, `futa` | Payroll & SE tax |
+| `niit`, `qbid`, `salt_cap`, `amt` | Key thresholds |
+| `solo_401k`, `ira_limit`, `hsa`, `sep_ira`, `fsa` | Retirement & savings |
+| `section_179`, `bonus_depreciation`, `macrs` | Depreciation |
+| `estate_exemption`, `gift_exemption`, `annual_exclusion` | Estate & gift |
+| `state_no_tax`, `state_flat`, `state_graduated_*` | State brackets |
+| `state_flat_standard_deductions`, `state_graduated_*_standard_deductions` | State deductions |
+| `ptet`, `ptet_expired` | PTET rates & credits |
+| `state_lists`, `local`, `ca_scorp_entity_tax` | State overview & entity taxes |
